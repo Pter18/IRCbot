@@ -1,8 +1,15 @@
-from Tkinter import *
+import ctypes
+#ctypes para la ejecucion de DLL
+import sys
+#Programa de mensaje por: Oscar y Diana
 
-raiz=Tk()
-raiz.title("Pagame.exe")
-raiz.geometry("500x150+500+150")
-etiqueta=Label(raiz,text="\nHaz sido infectado, algunos de tus archivos se encuentran cifrados,\n si quieres recuperarlos tienes que pagar lo equivalente a $600 USD\n en bitcoins a la cuenta: qwerty123456. \n\nSi ya pagaste contactame por el canal IRC y te dire lo que procede ;)")
-etiqueta.pack()
-raiz.mainloop()
+#titulo de la ventana
+label = ctypes.c_char_p('Tu equipo ha sido infectado')
+#como arg recibe el nombre del archivo que se ha cifrado
+#Mensaje mostrado, si el exe recibe argumento, lo agrega al mensaje
+if len(sys.argv) > 1:
+    message = ctypes.c_char_p('Tu pc ha sido secuestrada. Deposita 2 bitcoins a la cuenta qwerty12345 para liberar tus archivos. Seguira cifrando mientras no pagues. Archivo perdido: ' + sys.argv[1])
+else:
+    message = ctypes.c_char_p('Tu pc ha sido secuestrada. Deposita 2 bitcoins a la cuenta qwerty12345 para liberar tus archivos. Seguira cifrando mientras no pagues.')
+
+ctypes.windll.user32.MessageBoxA(0, message, label, 0x00000000)
