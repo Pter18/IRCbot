@@ -1,3 +1,5 @@
 Ejecutar:
 python setup.py install
 python setup.py py2exe
+python setup2.py install
+python setup2.py py2exe
