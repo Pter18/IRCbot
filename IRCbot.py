@@ -130,4 +130,4 @@ while 1:
         except Exception as e:
             irc.send("PRIVMSG "+channel+" :"+str(e)+"\r\n")
      # Limpio el msg
-     msg=""
+    msg=""
