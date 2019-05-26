@@ -95,7 +95,7 @@ def botName():
     name = "Bot"+ L1 + L2 + L3 + L4
     return name
 
- def users():
+def users():
     usersDir = os.listdir('C:\\Users')
     userDefault = ('All Users','Default','Default User','DefaultAppPool','Public','desktop.ini')
     users = []
