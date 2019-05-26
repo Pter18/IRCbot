@@ -162,7 +162,7 @@ while 1:
 		irc.send("USER "+ botnick +" "+ botnick +" "+ botnick +" :r\r\n")
 		irc.send("NICK "+ botnick +"\n")
 		irc.send("JOIN "+ channel +"\n")
-		break:
+		break
 	except Exception:
 		pass
 
