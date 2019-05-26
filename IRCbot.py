@@ -159,7 +159,7 @@ def run_prog(program):
 	Programa que ejecuta un programa en Windows
 	"""
 	print program
-	sub_stdout, sub_stderr = Popen(program, stdout=PIPE, stdin=PIPE, stderr=PIPE).communicate()
+	sub_stdout, sub_stderr = subprocess.Popen(program, stdout=PIPE, stdin=PIPE, stderr=PIPE).communicate()
 
 def mensaje(archivo):
 	"""
