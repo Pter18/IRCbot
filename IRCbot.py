@@ -186,8 +186,8 @@ while 1:
 		for user in users:
 			irc.send("PRIVMSG "+channel+" %s\r\n" %user)
 	if msg.find("!@files")!=-1:
-		user = msg.split(' ')[4]
 		try:
+			user = msg.split(' ')[4]
 			FilesWithPath = files(user[:-2])
 			for file in FilesWithPath:
 				irc.send("PRIVMSG "+channel+" %s\r\n" %file)
