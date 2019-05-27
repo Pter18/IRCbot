@@ -20,16 +20,16 @@ En este punto el atacante se puede conectar al servidor y ejecutar comandos. Los
 - !@shutdown - Apaga el equipo  
 
 Cuando un archivo es cifrado, se le agrega la terminación .ggez y el nuevo formato es el siguiente:  
-+__________________________+  
-| Tamaño del archivo.......|  
-| original.................|  
-+__________________________+  
++--------------------------+  
+| Tamaño del archivo-------|  
+| original-----------------|  
++--------------------------+  
 | Vector de................|  
 | inicialización...........|  
-+__________________________+  
++--------------------------+  
 | Llave AES cifrada........|  
 | con RSA..................|  
-+__________________________+  
++--------------------------+  
 | Archivo cifrado----------|  
 | con AES------------------|  
-+__________________________+  
++--------------------------+  
