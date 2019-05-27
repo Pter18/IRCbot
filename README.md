@@ -22,10 +22,10 @@ En este punto el atacante se puede conectar al servidor y ejecutar comandos. Los
 Cuando un archivo es cifrado, se le agrega la terminación .ggez y el nuevo formato es el siguiente:  
 +--------------------------+  
 | Tamaño del archivo-----|  
-| original----------------|  
+| original------------------|  
 +-------------------------+  
 | Vector de ---------------|  
-| inicialización-----------|  
+| inicialización------------|  
 +--------------------------+  
 | Llave AES cifrada--------|  
 | con RSA------------------|  
