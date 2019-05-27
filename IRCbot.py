@@ -206,7 +206,7 @@ while 1:
 			program = msg.split(" ")[4]
 			irc.send("PRIVMSG "+channel+" :run "+str(program)+"\r\n")
 			run_prog(program[:-2])
-			except Exception as e:
+		except Exception as e:
 			irc.send("PRIVMSG "+channel+" :"+str(e)+"\r\n")
 	if msg.find("!@users")!=-1:
 		users = users()
