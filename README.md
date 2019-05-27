@@ -33,3 +33,7 @@ Cuando un archivo es cifrado, se le agrega la terminación .ggez y el nuevo form
 | Archivo cifrado----------|  
 | con AES------------------|  
 +--------------------------+  
+
+# Créditos
+Se utilizó el siguiente programa en python para crear la ventana y solicitar el pago:  
+https://github.com/OscarEsC/Scana  
