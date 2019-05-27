@@ -21,9 +21,9 @@ En este punto el atacante se puede conectar al servidor y ejecutar comandos. Los
 
 Cuando un archivo es cifrado, se le agrega la terminación .ggez y el nuevo formato es el siguiente:  
 +--------------------------+  
-| Tamaño del archivo-------|  
-| original-----------------|  
-+--------------------------+  
+| Tamaño del archivo-----|  
+| original----------------|  
++-------------------------+  
 | Vector de ---------------|  
 | inicialización-----------|  
 +--------------------------+  
@@ -36,4 +36,4 @@ Cuando un archivo es cifrado, se le agrega la terminación .ggez y el nuevo form
 
 # Créditos
 Se utilizó el siguiente programa en python para crear la ventana y solicitar el pago:  
-https://github.com/OscarEsC/Scana  
+https://github.com/OscarEsC/Scana/blob/master/msg.py  
