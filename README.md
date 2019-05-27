@@ -24,11 +24,11 @@ Cuando un archivo es cifrado, se le agrega la terminación .ggez y el nuevo form
 | Tamaño del archivo-------|  
 | original-----------------|  
 +--------------------------+  
-| Vector de................|  
-| inicialización...........|  
+| Vector de ---------------|  
+| inicialización-----------|  
 +--------------------------+  
-| Llave AES cifrada........|  
-| con RSA..................|  
+| Llave AES cifrada--------|  
+| con RSA------------------|  
 +--------------------------+  
 | Archivo cifrado----------|  
 | con AES------------------|  
